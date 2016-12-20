@@ -1,25 +1,23 @@
 --Speedroid Vidroskull
 function c511009385.initial_effect(c)
 --spsummon
-	local e3=Effect.CreateEffect(c)
-	e3:SetDescription(aux.Stringid(21250202,0))
-	e3:SetCategory(CATEGORY_SPECIAL_SUMMON)
-	e3:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_TRIGGER_O)
-	e3:SetRange(LOCATION_HAND)
-	e3:SetCode(EVENT_PHASE+PHASE_END)
-	e3:SetCountLimit(1)
-	e3:SetCondition(c511009385.spcon)
-	e3:SetTarget(c511009385.sptg)
-	e3:SetOperation(c511009385.spop)
-	c:RegisterEffect(e3)
+	local e1=Effect.CreateEffect(c)
+	e1:SetDescription(aux.Stringid(21250202,0))
+	e1:SetCategory(CATEGORY_SPECIAL_SUMMON)
+	e1:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_TRIGGER_O)
+	e1:SetRange(LOCATION_HAND)
+	e1:SetCode(EVENT_PHASE+PHASE_END)
+	e1:SetCountLimit(1)
+	e1:SetCondition(c511009385.spcon)
+	e1:SetTarget(c511009385.sptg)
+	e1:SetOperation(c511009385.spop)
+	c:RegisterEffect(e1)
 
-	-- damage
+	--battle
 	local e2=Effect.CreateEffect(c)
-	e2:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
-	e2:SetCode(EVENT_PRE_BATTLE_DAMAGE)
-	e2:SetRange(LOCATION_MZONE)
-	e2:SetCondition(c511009385.damcon)
-	e2:SetOperation(c511009385.damop)
+	e2:SetType(EFFECT_TYPE_SINGLE)
+	e2:SetCode(EFFECT_REFLECT_BATTLE_DAMAGE)
+	e2:SetValue(1)
 	c:RegisterEffect(e2)
 	if not c511009385.global_check then
 		c511009385.global_check=true
@@ -57,11 +55,4 @@ local c=e:GetHandler()
 		and c:IsCanBeSpecialSummoned(e,0,tp,false,false) then
 		Duel.SendtoGrave(c,REASON_RULE)
 	end
-end
-function c511009385.damcon(e,tp,eg,ep,ev,re,r,rp)
-	local c=e:GetHandler()
-	return ep==tp and c:IsRelateToBattle() and eg:GetFirst()==c:GetBattleTarget()
-end
-function c511009385.damop(e,tp,eg,ep,ev,re,r,rp)
-	Duel.ChangeBattleDamage(1-tp,ev,false)
 end
