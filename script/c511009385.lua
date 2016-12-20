@@ -51,23 +51,13 @@ function c511009385.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
 	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,e:GetHandler(),1,0,0)
 end
 function c511009385.spop(e,tp,eg,ep,ev,re,r,rp)
-	local c=e:GetHandler()
+local c=e:GetHandler()
 	if not c:IsRelateToEffect(e) then return end
-	if Duel.SpecialSummon(c,0,tp,tp,false,false,POS_FACEUP)~=0 then
-		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TOFIELD)
-		local g=Duel.SelectMatchingCard(tp,c511009385.penfilter,tp,LOCATION_EXTRA,0,1,1,nil)
-		local tc=g:GetFirst()
-		if tc then
-			Duel.MoveToField(tc,tp,tp,LOCATION_SZONE,POS_FACEUP,true)
-		end
-	elseif Duel.GetLocationCount(tp,LOCATION_MZONE)<=0
+	if Duel.SpecialSummon(c,0,tp,tp,false,false,POS_FACEUP)==0 and Duel.GetLocationCount(tp,LOCATION_MZONE)<=0
 		and c:IsCanBeSpecialSummoned(e,0,tp,false,false) then
 		Duel.SendtoGrave(c,REASON_RULE)
 	end
 end
-
-
-
 function c511009385.damcon(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	return ep==tp and c:IsRelateToBattle() and eg:GetFirst()==c:GetBattleTarget()
